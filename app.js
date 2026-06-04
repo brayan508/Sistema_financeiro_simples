@@ -25,6 +25,16 @@ app.post("/api/transacoes", async (req, res) => {
   res.json({ sucesso: true });
 });
 
+app.get("/api/receitas", async (req, res) => {
+  const [rows] = await pool.query("SELECT SUM(valor) as total FROM transacoes WHERE tipo = 'receita'");
+  res.json(rows);
+});
+
+app.get("/api/despesas", async (req, res) => {
+  const [rows] = await pool.query("SELECT SUM(valor) as total FROM transacoes WHERE tipo = 'despesa'");
+  res.json(rows);
+});
+
 app.get("/api/transacoes", async (req, res) => {
   const [rows] = await pool.query("SELECT * FROM transacoes ORDER BY data_transacao DESC");
   res.json(rows);
