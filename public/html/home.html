@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Finanças Pessoais</title>
+
+    <!-- Bootstrap -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- Bootstrap Icons -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body>
+    <div class="container-fluid">
+      <div class="row">
+        <!-- Sidebar -->
+        <nav class="col-md-2 sidebar">
+          <h4 class="text-center mb-4">💰 Finanças</h4>
+
+          <button class="btn menu-btn active">Home</button>
+          <button class="btn menu-btn">Transações</button>
+          <button class="btn menu-btn">Relatórios</button>
+          <button class="btn menu-btn">Configurações</button>
+        </nav>
+
+        <!-- Conteúdo -->
+        <main class="col-md-10 p-4">
+          <!-- Header -->
+          <div class="header mb-4">
+            <div>
+              <h2>Olá, Brayan 👋</h2>
+              <p class="text-muted">Bem-vindo ao seu painel financeiro</p>
+            </div>
+
+            <div class="perfil">
+              <i class="bi bi-person-circle"></i>
+            </div>
+          </div>
+
+          <!-- Cards -->
+          <div class="row g-3 mb-4">
+            <div class="col-md-4">
+              <div class="card-finance">
+                <div>
+                  <h6>Saldo Atual</h6>
+                  <h3 id="saldo">R$ 0,00</h3>
+                </div>
+                <i class="bi bi-wallet2"></i>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="card-finance receita">
+                <div>
+                  <h6>Receitas</h6>
+                  <h3 id="receitas">R$ 0,00</h3>
+                </div>
+                <i class="bi bi-arrow-up-circle-fill"></i>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="card-finance despesa">
+                <div>
+                  <h6>Despesas</h6>
+                  <h3 id="despesas">R$ 0,00</h3>
+                </div>
+                <i class="bi bi-arrow-down-circle-fill"></i>
+              </div>
+            </div>
+          </div>
+
+          <!-- Conteúdo Principal -->
+          <div class="row">
+            <!-- Transações -->
+            <div class="col-lg-5 mb-4">
+              <div class="box">
+                <h4 class="mb-3">Transações Recentes</h4>
+
+                <ul class="list-group" id="listaTransacoes"></ul>
+              </div>
+            </div>
+
+            <!-- Formulário -->
+            <div class="col-lg-7">
+              <div class="box">
+                <h4 class="mb-3">Adicionar Transação</h4>
+
+                <form>
+                  <div class="mb-3">
+                    <label class="form-label">Tipo</label>
+                    <select
+                      class="form-select"
+                      id="tipo"
+                      placeholder="Tipo Da Transação"
+                    >
+                      <option value="receita" selected>Receita</option>
+                      <option value="despesa">Despesa</option>
+                    </select>
+                  </div>
+
+                  <div class="mb-3">
+                    <label class="form-label">Valor</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="valor"
+                      placeholder="R$ 0,00"
+                    />
+                  </div>
+
+                  <div class="mb-3">
+                    <label class="form-label">Categoria</label>
+                    <select
+                      class="form-select"
+                      id="categoria"
+                      placeholder="Categoria Da Transação"
+                    >
+                        <!-- Opções serão carregadas dinamicamente -->
+                    </select>
+                  </div>
+
+                  <div class="mb-3">
+                    <label class="form-label">Data</label>
+                    <input type="date" class="form-control" id="data" />
+                  </div>
+
+                  <button class="btn btn-dark w-100" id="adicionarTransacao">
+                    Adicionar Transação
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/script.js"></script>
+  </body>
+</html>

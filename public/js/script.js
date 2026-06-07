@@ -4,10 +4,10 @@ botao.addEventListener('click', async (event) => {
      event.preventDefault();
     const tipo = document.getElementById('tipo').value;
     const valor = Number(document.getElementById('valor').value);
-    const categoria = document.getElementById('categoria').value;
+    const id_categoria = document.getElementById('categoria').value;
     const data = document.getElementById('data').value;
 
-    if (!tipo || !valor || !categoria || !data) {
+    if (!tipo || !valor || !id_categoria || !data) {
         alert('Por favor, preencha todos os campos');
         return;
     } else if (valor <= 0) {
@@ -21,7 +21,7 @@ botao.addEventListener('click', async (event) => {
     const resposta = await fetch('/api/transacoes', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ tipo, valor, categoria, data })
+        body: JSON.stringify({ tipo, valor, id_categoria, data })
     });
 
     if (!resposta.ok) {
@@ -58,6 +58,9 @@ async function carregarTransacoes() {
     const despesas = await resposta_despesas.json();
     document.getElementById('despesas').textContent = `R$ -${Number(despesas[0].total).toFixed(2)}`;
 
+    const resposta_categorias = await fetch('/api/categorias');
+    const categorias = await resposta_categorias.json();
+
 
     //atualiza a lista de transações
     const listaTransacoes = document.getElementById('listaTransacoes');
@@ -66,20 +69,29 @@ async function carregarTransacoes() {
     const ultimastransacoes = transacoes.slice(-6).reverse();
 
 
-    ultimastransacoes.forEach(transacao => {
-        const classe = transacao.tipo === 'receita' ? 'text-success' : 'text-danger';
-        const sinal  = transacao.tipo === 'receita' ? '+' : '-';
+   ultimastransacoes.forEach(transacao => {
+    const classe = transacao.tipo === 'receita' ? 'text-success' : 'text-danger';
+    const sinal  = transacao.tipo === 'receita' ? '+' : '-';
+    const nomeCategoria = categorias.find(c => c.id_categoria === transacao.id_categoria)?.nome_categoria || 'Sem categoria';
+    const data = new Date(transacao.data_transacao).toLocaleDateString('pt-BR');
 
-        listaTransacoes.innerHTML += `
-            <li class="list-group-item d-flex justify-content-between">
-                <span>${transacao.categoria} <br> <small>${transacao.data}</small></span>
-                <span class="${classe}">${sinal} R$ ${Number(transacao.valor).toFixed(2)}</span>
-                <button type="button" class="btn btn-outline-danger border-0" id="deletar-${transacao.id}">
-                    <i class="bi bi-trash"></i>
-                </button>
-            </li>
-        `;
+    const li = document.createElement('li');
+    li.className = 'list-group-item d-flex justify-content-between';
+    li.innerHTML = `
+        <span>${nomeCategoria} <br> <small>${data}</small></span>
+        <span class="${classe}">${sinal} R$ ${Number(transacao.valor).toFixed(2)}</span>
+        <button type="button" class="btn btn-outline-danger border-0">
+            <i class="bi bi-trash"></i>
+        </button>
+    `;
+
+    // ✅ listener direto no botão, sem depender do id
+    li.querySelector('button').addEventListener('click', () => {
+        deletarTransacao(transacao.id_transacao);
     });
+
+    listaTransacoes.appendChild(li);
+});
 
     // Listeners adicionados DEPOIS que os novos elementos existem no DOM
     document.querySelectorAll('[id^="deletar-"]').forEach(btn => {
@@ -105,6 +117,20 @@ async function deletarTransacao(id) {
     await carregarTransacoes();
 }
 
+async function carregarCategorias() {
+    const select = document.getElementById('categoria');
+    const resposta_carregar_categorias = await fetch('/api/categorias');
+    const categorias = await resposta_carregar_categorias.json();
+
+    categorias.forEach(categoria => {
+        const option = document.createElement('option');
+        option.value = categoria.id_categoria;
+        option.textContent = categoria.nome_categoria;
+        select.appendChild(option);
+    });
+}
+
 window.onload = () => {
     carregarTransacoes();
+    carregarCategorias();
 };

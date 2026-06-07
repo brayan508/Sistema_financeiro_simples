@@ -1,0 +1,28 @@
+body{
+    background:#f4f6f9;
+    font-family:'Segoe UI', sans-serif;
+}
+
+.login-card{
+    width:280px;
+    background:#eef2f7;
+    border:1px solid #cbd5e1;
+    padding:25px;
+    box-shadow:0 3px 10px rgba(0,0,0,.08);
+}
+
+.icon-circle{
+    width:50px;
+    height:50px;
+    border:2px solid #cbd5e1;
+    border-radius:50%;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.icon-circle i{
+    font-size:1.3rem;
+    color:#94a3b8;
+}
