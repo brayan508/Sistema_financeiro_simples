@@ -87,7 +87,7 @@ npm start
 ou
 
 ```bash
-node server.js
+node app.js
 ```
 
 ### 6. Acesse no navegador
